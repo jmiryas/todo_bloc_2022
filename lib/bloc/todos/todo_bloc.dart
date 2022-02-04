@@ -14,6 +14,8 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     on<TodoDeleteEvent>(_onTodoDelete);
   }
 
+  // Fungsi untuk me-load todo
+
   void _onTodoLoad(TodoLoadEvent event, Emitter<TodoState> emit) async {
     emit(TodoLoadingState());
 
@@ -24,9 +26,55 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     );
   }
 
-  void _onTodoAdd(TodoAddEvent event, Emitter<TodoState> state) {}
+  // Fungsi untuk menambah todo
 
-  void _onTodoEdit(TodoEditEvent event, Emitter<TodoState> state) {}
+  void _onTodoAdd(TodoAddEvent event, Emitter<TodoState> emit) {
+    final state = this.state;
 
-  void _onTodoDelete(TodoDeleteEvent event, Emitter<TodoState> state) {}
+    if (state is TodoLoadedState) {
+      emit(
+        TodoLoadedState(
+          todos: List.from(state.todos)..add(event.todo),
+        ),
+      );
+    }
+  }
+
+  // Fungsi untuk mengedit todo
+
+  void _onTodoEdit(TodoEditEvent event, Emitter<TodoState> emit) {
+    final state = this.state;
+
+    if (state is TodoLoadedState) {
+      List<TodoModel> todos = state.todos
+          .map((item) => item.id == event.todo.id ? event.todo : item)
+          .toList();
+
+      emit(
+        TodoLoadedState(
+          todos: List.from(todos),
+        ),
+      );
+    }
+  }
+
+  // Fungsi untuk menghapus todo
+
+  void _onTodoDelete(TodoDeleteEvent event, Emitter<TodoState> emit) {
+    final state = this.state;
+
+    if (state is TodoLoadedState) {
+      List<TodoModel> todos = state.todos
+          .where(
+            (item) => item.id != event.todo.id,
+          )
+          .toList();
+
+      emit(
+        TodoLoadedState(
+          todos: List.from(todos),
+        ),
+      );
+    }
+  }
 }

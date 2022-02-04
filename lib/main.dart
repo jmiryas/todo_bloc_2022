@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_bloc_2022/bloc/todos/todo_bloc.dart';
-import 'package:todo_bloc_2022/models/todo_model.dart';
 
 import '../config/theme.dart';
+import '../app_bloc_observer.dart';
+import '../models/todo_model.dart';
 import '../screens/home_screen.dart';
+import '../bloc/todos/todo_bloc.dart';
 
 void main() {
-  runApp(const MyApp());
+  BlocOverrides.runZoned(
+    () => runApp(const MyApp()),
+    blocObserver: AppBlocObserver(),
+  );
 }
 
 class MyApp extends StatelessWidget {

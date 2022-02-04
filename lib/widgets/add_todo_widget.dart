@@ -74,6 +74,8 @@ class AddTodoWidget extends StatelessWidget {
                 BlocProvider.of<TodoBloc>(context).add(
                   TodoAddEvent(todo: todo),
                 );
+
+                Navigator.pop(context);
               }
             },
             child: Text(

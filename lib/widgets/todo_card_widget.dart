@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../models/todo_model.dart';
+import '../bloc/todos/todo_bloc.dart';
 
 class TodoCardWidget extends StatelessWidget {
   const TodoCardWidget({
@@ -22,14 +24,24 @@ class TodoCardWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  BlocProvider.of<TodoBloc>(context).add(
+                    TodoEditEvent(
+                      todo: todo.copyWith(isCompleted: !todo.isCompleted),
+                    ),
+                  );
+                },
                 icon: Icon(
                   Icons.check,
                   color: Colors.green.shade300,
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  BlocProvider.of<TodoBloc>(context).add(
+                    TodoDeleteEvent(todo: todo),
+                  );
+                },
                 icon: Icon(
                   Icons.clear,
                   color: Colors.red.shade300,

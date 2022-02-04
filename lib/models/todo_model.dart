@@ -32,11 +32,11 @@ class TodoModel extends Equatable {
     isCancelled,
   }) {
     return TodoModel(
-      id: id,
-      task: task,
-      description: description,
-      isCompleted: isCompleted,
-      isCancelled: isCancelled,
+      id: id ?? this.id,
+      task: task ?? this.task,
+      description: description ?? this.description,
+      isCompleted: isCompleted ?? this.isCompleted,
+      isCancelled: isCancelled ?? this.isCancelled,
     );
   }
 }
